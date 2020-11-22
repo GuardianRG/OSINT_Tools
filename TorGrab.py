@@ -1,7 +1,7 @@
 '''
 TorGrab - By Shandyman
-Version: 1.1
-Last Update: 18/11/20
+Version: 1.1.1
+Last Update: 22/11/20
 '''
 
 import os
@@ -41,7 +41,7 @@ def main():
                 print(f"Attempting to fetch up to {colors.green}" + str(results) + f"{colors.default} results...")
             ahmia(query, results)
     except:
-        print(f"{colors.yellow}Enter an Argument!{colors.default}")
+        print(f"{colors.yellow}Enter an Argument! Try using -h.{colors.default}")
         sys.exit()
         
 def ahmia(query, results):
