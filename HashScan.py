@@ -1,6 +1,6 @@
 '''
 HashScan - By Shandyman
-Version: 2.0
+Version: 2.0.1
 Last Update: 09/12/20
 '''
 import os
@@ -129,7 +129,4 @@ if __name__ == "__main__":
             if target_hash == "-h":
                 help()
             else:
-                if target_hash == "--new-lists":
-                    get_new_lists()
-                else:
-                    hashes(target_hash)
+                hashes(target_hash)
