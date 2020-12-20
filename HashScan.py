@@ -1,7 +1,7 @@
 '''
 HashScan - By Shandyman
-Version: 2.0.1
-Last Update: 09/12/20
+Version: 2.1
+Last Update: 20/12/20
 '''
 import os
 import sys
@@ -14,10 +14,15 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 global filebreak
 global count
+global hashArray
+global plainArray
+global algArray
 
 filebreak = "================"
 varbreak = "-----------------"
-
+hashArray = []
+plainArray = []
+algArray = []
 
 os.system('color')
 class colors:
@@ -55,10 +60,16 @@ def hashes(target_hash):
             plain_pass = info["result"][target_hash]["plain"]
             plain_alg = info["result"][target_hash]["algorithm"]
             
+            hashArray.append(str(target_hash))
+            plainArray.append(str(plain_pass))
+            algArray.append(str(plain_alg))
+            
+            
             print(filebreak)
             print("Algorithm: " + str(plain_alg))
             print("Password: " + str(plain_pass))
             print(filebreak + "\n")
+            
         except:
             print(filebreak)
             print(f"{colors.yellow}Couldn't find anything about that Hash!{colors.default}")
@@ -77,7 +88,21 @@ def help():
     print("hashscan.py 5f4dcc3b5aa765d61d8327deb882cf99")
     print("hashscan.py list_of_hashes.txt")
     
-
+def exportResults():
+    
+    resultsFile = "Results.csv"
+    a = 0
+    with open(resultsFile, 'w', newline='', encoding='utf-8') as file:
+        info = csv.writer(file)
+        info.writerow(["Hash", "PlainText", "Algorithm"])
+        for a in range(0,1000):
+            try:
+                info.writerow([str(hashArray[a]), str(plainArray[a]), str(algArray[a])])
+                a += 1
+            except:
+                print("Successful results written to Results.csv.")
+                sys.exit()
+                    
 if __name__ == "__main__":
     print(f"{colors.cyan}  _   _           _     ____                  ")
     print(" | | | | __ _ ___| |__ / ___|  ___ __ _ _ __  ")
@@ -88,7 +113,7 @@ if __name__ == "__main__":
     try:
         target_hash = sys.argv[1]
     except:
-        print("Check that input bro....")
+        print("Check that input mate....")
         sys.exit()
         
     if target_hash.endswith(".txt"):
@@ -107,6 +132,7 @@ if __name__ == "__main__":
                     time.sleep(60)
                     x = 0
                     hashes(str(target_hash))
+        exportResults()
 
     else:
         if target_hash.endswith(".csv"):
@@ -125,6 +151,7 @@ if __name__ == "__main__":
                         time.sleep(60)
                         x = 0
                         hashes(str(target_hash))
+            exportResults()
         else:
             if target_hash == "-h":
                 help()
